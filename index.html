@@ -27,6 +27,12 @@ button{font:inherit;color:inherit;touch-action:none;-webkit-tap-highlight-color:
 #code{padding:10px;font:800 16px system-ui;width:120px;text-align:center;background:#000;color:#fff;border:1px solid #ffb300;border-radius:6px;text-transform:uppercase;margin-bottom:6px}
 #lm{min-height:16px;font-size:12px;color:#ffd54a;margin-bottom:6px;text-shadow:0 1px 3px #000}
 #go{width:100%;padding:16px;font:900 22px system-ui;letter-spacing:1px;color:#2a1500;background:linear-gradient(#ffe066,#ff8f00);border:3px solid #fff;border-radius:6px;transform:skewX(-8deg);box-shadow:0 4px 0 #a55c00,0 0 24px #ff8f00}
+#authGate{position:fixed;inset:0;z-index:30;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(ellipse at 50% 20%,#283e66ee,#080d18f5 72%);pointer-events:auto}
+.auth-card{width:min(100%,390px);padding:24px;border:1px solid #9fc7ff77;border-radius:18px;background:linear-gradient(145deg,#18263a,#0c1422);box-shadow:0 20px 70px #000c;color:#fff;touch-action:pan-y}
+.auth-card h1{margin:0;color:#ffe36c;font-size:25px;letter-spacing:1px}.auth-card p{color:#bdcce0;line-height:1.45}.auth-card label{display:block;margin:14px 0 6px;color:#dceaff;font-size:12px}
+.auth-card input{box-sizing:border-box;width:100%;padding:13px;border-radius:9px;border:1px solid #7892b1;background:#080e18;color:#fff;font:600 16px system-ui;user-select:text;-webkit-user-select:text;touch-action:auto}
+.auth-card button{width:100%;padding:12px;margin-top:10px;border-radius:9px;border:1px solid #94c9ff;background:#102039;color:white;font-weight:800;touch-action:auto}
+.auth-card button.primary{background:#f0c84b;color:#19150a;border-color:#ffed9e}.auth-card button.link{border:0;background:transparent;color:#9fd4ff;text-decoration:underline}.auth-error{min-height:20px;color:#ff9999;font-size:12px}.auth-note{font-size:11px!important;color:#a9bbd1!important}
 #modal{position:fixed;inset:0;z-index:9;background:#000c;display:none;align-items:center;justify-content:center}
 .card{background:#1d1233;border:2px solid #ffb300;border-radius:12px;padding:14px;max-width:560px;max-height:84vh;overflow:auto;width:92%;touch-action:pan-y}
 .card h3{margin:0 0 8px;color:#ffd54a}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
@@ -220,9 +226,69 @@ button,#fsBtn,.b,#hudEditorPanel button{background:#050505!important;color:#fff!
 button:active,#fsBtn:active,.b:active{background:#202020!important;border-color:#fff!important}
 .b{background:#050505!important;border-color:#777!important;color:#fff!important}
 #build.on{background:#050505!important;border-color:#fff!important}
+
+#modal.ward{background:transparent;pointer-events:none;align-items:stretch;justify-content:stretch}
+.wd{position:absolute;inset:0;display:grid;grid-template-columns:clamp(74px,16vw,130px) minmax(0,1fr) 36%;grid-template-rows:100%;pointer-events:none;font-style:italic;text-transform:uppercase}
+.wtabs{background:#0b0f18f2;padding:8px 0;overflow:auto;pointer-events:auto;border-right:1px solid #fff2;touch-action:pan-y}
+.wt{padding:clamp(8px,2.6vh,14px) 10px;font-size:clamp(9px,2.6vh,13px);font-weight:900;border-left:4px solid transparent;opacity:.75;cursor:pointer}
+.wt.on{background:linear-gradient(90deg,#ff8f00,#ffc800);color:#1b1200;opacity:1;border-left-color:#fff}.wt.off{opacity:.28}
+.wmain{background:#0b0f18ea;pointer-events:auto;overflow:auto;padding:10px;touch-action:pan-y}
+.wmain h4{margin:0 0 8px;font-size:clamp(11px,3vh,15px);color:#ffc800}
+.wgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(60px,18vh,92px),1fr));gap:6px}
+.wk{position:relative;background:linear-gradient(#2b2350,#150f2e);border:2px solid #fff3;padding:4px 2px 2px;text-align:center;cursor:pointer}
+.wk.on{outline:2px solid #fff}.wk.eq{box-shadow:inset 0 0 0 2px #ffc800}
+.wk svg{width:68%;display:block;margin:0 auto}.wn{display:block;font-size:clamp(7px,2vh,10px);margin-top:2px}
+.wq{position:absolute;top:2px;left:2px;background:#ffc800;color:#1b1200;font-size:7px;padding:1px 4px;font-style:italic}
+.wl{position:absolute;top:2px;right:3px;font-size:12px;font-style:normal}
+.wx{position:absolute;top:6px;right:8px;pointer-events:auto;width:34px;height:34px;background:#000a;border:2px solid #fff6;display:flex;align-items:center;justify-content:center;font-size:20px;z-index:2;font-style:normal;cursor:pointer}
+.wbar{position:absolute;right:10px;bottom:10px;width:calc(34% - 20px);pointer-events:auto;text-align:right}
+.wbar b{display:block;font-size:clamp(13px,4vh,20px);text-shadow:0 2px 4px #000}.wbar small{display:block;font-size:11px;margin-bottom:6px;text-shadow:0 1px 3px #000}
+.chest{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+.chest svg{width:clamp(80px,34vh,170px);filter:drop-shadow(0 0 18px #ffb300)}.chest.open svg{animation:shk .5s}
+@keyframes shk{0%,100%{transform:rotate(0)}20%{transform:rotate(-8deg) scale(1.05)}40%{transform:rotate(8deg) scale(1.08)}60%{transform:rotate(-5deg)}80%{transform:rotate(5deg)}}
+
+.wardOn #lobby{visibility:hidden}
+/* Lobby de inverno inspirado na referência enviada: madeira, luzes quentes e botões em placas. */
+#lobby{overflow:hidden;background:linear-gradient(180deg,#120f10aa 0%,transparent 33%,transparent 70%,#100b08bb 100%)}
+#lt{top:calc(env(safe-area-inset-top,0px) + 10px);left:12px;background:#11151bea;border:1px solid #b78a50;border-radius:18px;padding:7px 12px 7px 7px;box-shadow:0 4px 0 #211710,0 8px 22px #0008}
+#lt>div:nth-child(2){font-weight:900}
+#cn{top:calc(env(safe-area-inset-top,0px) + 12px);right:14px;background:#15171bea;border:1px solid #d4ac68;border-radius:14px;color:#f8e6b7;font-weight:900;box-shadow:0 4px 0 #24170f}
+#logo{top:calc(env(safe-area-inset-top,0px) + 18px);left:30%;right:20%;color:#f2d596;font-size:clamp(15px,2.3vw,27px);line-height:1.15;letter-spacing:3px;text-shadow:0 2px 2px #2c160c,0 0 18px #f6bd56aa;pointer-events:none}
+#logo:before{content:'SUPER BLOCK FIRE  ·  FRONTEIRA DOURADA';display:block;margin-bottom:3px;color:#f5d48d;font:800 8px system-ui;letter-spacing:3px;opacity:.9}
+#ll{position:static;pointer-events:none}
+#ll .fb{position:absolute;width:auto;min-width:108px;margin:0;padding:11px 14px;border:2px solid #111820;border-radius:15px;color:#fff;font-size:clamp(11px,1.35vw,17px);font-weight:900;text-shadow:0 1px 2px #111;box-shadow:0 4px 0 #0b1018,0 8px 18px #0008;pointer-events:auto}
+#bRank{left:142px;top:calc(env(safe-area-inset-top,0px) + 73px);background:linear-gradient(135deg,#257bd0,#354fd0)}
+#bcf{left:12px;top:calc(env(safe-area-inset-top,0px) + 73px);background:linear-gradient(135deg,#343f4d,#202936)}
+#bPass{right:14px;top:calc(env(safe-area-inset-top,0px) + 42px);background:linear-gradient(135deg,#7149ad,#363d94)}
+#bGift{right:14px;top:calc(env(safe-area-inset-top,0px) + 116px);background:linear-gradient(135deg,#28364a,#121d2a)}
+#bShop{right:14px;top:calc(env(safe-area-inset-top,0px) + 190px);background:linear-gradient(135deg,#b7783d,#68462f)}
+#bsp{left:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 82px);background:linear-gradient(135deg,#2fa64e,#176636)}
+#bwp{left:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 12px);background:linear-gradient(135deg,#2fa64e,#176636)}
+#bou{left:136px;bottom:calc(env(safe-area-inset-bottom,0px) + 12px);background:linear-gradient(135deg,#a846be,#66268b)}
+#lsq{display:none}
+#lr{right:14px;bottom:calc(env(safe-area-inset-bottom,0px) + 12px);width:min(34vw,290px);min-width:180px;text-align:right}
+#lr .chips{justify-content:flex-end}
+#lr .chips button{min-width:58px;padding:8px 6px;background:#17212acc;border:1px solid #b89b69;border-radius:11px;color:#fff;font-weight:800}
+#lr .chips button.on{background:#a25f32;color:#fff3d4}
+#go{min-width:100%;padding:13px 12px;border:3px solid #f1cd8c;border-radius:17px;background:linear-gradient(135deg,#ce8d4c,#70401f);color:#fff;font-size:clamp(15px,2vw,22px);font-weight:1000;letter-spacing:.5px;text-shadow:0 2px 3px #32190c;box-shadow:0 5px 0 #392519,0 8px 20px #0008}
+#modal .card{border-color:#c39b5f}
+@media(max-width:600px){
+ #lt{max-width:54vw;gap:5px;padding:5px 8px 5px 5px}.av{width:32px;height:32px;font-size:18px}
+ #cn{top:auto;right:10px;bottom:calc(env(safe-area-inset-bottom,0px) + 138px);font-size:11px;padding:6px 9px}
+ #logo{left:28%;right:24%;top:calc(env(safe-area-inset-top,0px) + 12px);font-size:14px;letter-spacing:1.5px}
+ #logo:before{font-size:6px;letter-spacing:1px}
+ #ll .fb{min-width:0;padding:9px 10px;border-radius:12px;font-size:11px}
+ #bRank{left:120px;top:calc(env(safe-area-inset-top,0px) + 67px)}#bcf{left:10px;top:calc(env(safe-area-inset-top,0px) + 67px)}
+ #bPass{right:10px;top:calc(env(safe-area-inset-top,0px) + 48px)}#bGift{right:10px;top:calc(env(safe-area-inset-top,0px) + 108px)}#bShop{right:10px;top:calc(env(safe-area-inset-top,0px) + 168px)}
+ #bsp{left:10px;bottom:calc(env(safe-area-inset-bottom,0px) + 72px)}#bwp{left:10px;bottom:calc(env(safe-area-inset-bottom,0px) + 10px)}#bou{left:118px;bottom:calc(env(safe-area-inset-bottom,0px) + 10px)}
+ #lr{right:10px;bottom:calc(env(safe-area-inset-bottom,0px) + 10px);width:34vw;min-width:135px}
+ #lr .chips button{font-size:9px;padding:7px 3px}#go{padding:11px 8px;font-size:16px}
+}
+@media(max-height:430px){#logo{display:none}#bsp{bottom:calc(env(safe-area-inset-bottom,0px) + 59px)}#cn{bottom:calc(env(safe-area-inset-bottom,0px) + 100px)}}
 </style></head><body>
+<section id="authGate" aria-label="Entrar ou criar conta"><form class="auth-card" id="authForm"><h1>ILHA ROYALE</h1><p id="authIntro">Entre para carregar seu progresso salvo na sua conta.</p><label for="authUser">Nome de usuário</label><input id="authUser" name="username" autocomplete="username" minlength="3" maxlength="20" pattern="[A-Za-z0-9_]{3,20}" required><label for="authPass">Senha</label><input id="authPass" name="password" type="password" autocomplete="current-password" minlength="8" maxlength="128" required><p class="auth-note" id="authHint">Use de 3 a 20 caracteres no nome (letras, números e _). Senha: 8 a 128 caracteres.</p><div class="auth-error" id="authError" role="alert"></div><button class="primary" id="authSubmit" type="submit">ENTRAR</button><button class="link" id="authSwitch" type="button">Ainda não tenho conta · Criar conta</button></form></section>
 <div id="lobby">
- <div id="lt"><div class="av">🧑</div><div><div style="font-size:14px">Jogador</div><div id="rankTiny" style="font-size:10px;opacity:.8">Recruta · 0 RP</div></div></div>
+ <div id="lt"><div class="av">🧑</div><div><div style="font-size:14px">Jogador</div><div id="rankTiny" style="font-size:10px;opacity:.8">Recruta · 0 RP</div></div><button id="logoutBtn" type="button" aria-label="Sair da conta" style="padding:6px 8px;border-radius:16px;font-size:10px">SAIR</button></div>
  <div id="cn">🪙 300 · 💎 0</div><div id="logo">ILHA ROYALE</div>
  <div id="ll"><button class="fb" id="bwp">🔫 ARMAS</button><button class="fb" id="bsp">🧰 UTILITÁRIOS</button><button class="fb" id="bou">👕 ROUPAS</button><button class="fb" id="bRank">⚔ RANKED</button><button class="fb" id="bPass">🎟 PASSE</button><button class="fb" id="bShop">🛍 LOJA</button><button class="fb" id="bGift">🎁 PRESENTES</button><button class="fb" id="bcf">⚙️ CONFIG</button></div>
  <div id="lsq"><div class="sq">🧑<br>Você</div><div class="sq">+</div><div class="sq">+</div><div class="sq">+</div></div>
@@ -395,7 +461,20 @@ const OUT=[{n:'Camisa Azul',s:0x2f6fe0,p:0x23304f,r:0},{n:'Turista de NY',s:0xff
  {n:'Rei de NY',s:0x7b1fa2,p:0xffd700,h:'crown',hc:0xffd700,r:3},{n:'Estátua da Liberdade',s:0x5fbf9f,p:0x3a8f77,h:'crown',hc:0x7fe0c0,r:3},{n:'Lobo Alfa',s:0x9e9e9e,p:0x424242,h:'ears',hc:0x757575,r:3},
  {n:'Eclipse Violeta',s:0x673ab7,p:0x20163a,h:'band',hc:0xd5a8ff,r:3},{n:'Aurora Celeste',s:0xe9f6ff,p:0x6374bd,h:'crown',hc:0xa8f0ff,r:3},
  {n:'Fênix de Neon',s:0xff4d65,p:0x34202b,h:'horns',hc:0xffbb4d,r:2},{n:'Sentinela Boreal',s:0x48c5d8,p:0x263658,h:'helmet',hc:0xb0f8ff,r:2},
- {n:'Soberano Astral',s:0x31245b,p:0x201529,h:'crown',hc:0x69f0ff,r:3},{n:'Vórtice Urbano',s:0x00a9a2,p:0x2a3142,h:'cap',hc:0xffcf54,r:2}];
+ {n:'Soberano Astral',s:0x31245b,p:0x201529,h:'crown',hc:0x69f0ff,r:3},{n:'Vórtice Urbano',s:0x00a9a2,p:0x2a3142,h:'cap',hc:0xffcf54,r:2},
+ {n:'Fantasma Ciano',s:0xeef4f8,p:0xeef4f8,h:'hood',hc:0xeef4f8,tr:0x19e6ff,pn:0x10141c,suit:1,r:3},
+ {n:'Amarelo Solar',s:0xffd21f,p:0xffd21f,tr:0xff8a00,pn:0x2a2200,suit:1,r:2},
+ {n:'Roxo Eclipse',s:0x7a3df0,p:0x7a3df0,tr:0xff5cf0,pn:0x1a0d33,suit:1,r:2},
+ {n:'Verde Venenoso',s:0x38d048,p:0x38d048,tr:0xd8ff3a,pn:0x0e2a12,suit:1,r:2},
+ {n:'Vermelho Carmim',s:0xe0262f,p:0xe0262f,tr:0xffb199,pn:0x2a0608,suit:1,r:2},
+ {n:'Laranja Magma',s:0xff7b1a,p:0xff7b1a,tr:0xffe14a,pn:0x2c1204,suit:1,r:1},
+ {n:'Azul Abissal',s:0x1f5cff,p:0x1f5cff,tr:0x72f1ff,pn:0x081230,suit:1,r:1},
+ {n:'Rosa Pantera',s:0xff5fa8,p:0xff5fa8,tr:0xffe3f0,pn:0x2a0c1c,suit:1,r:2},
+ {n:'Preto Sombra',s:0x14161c,p:0x14161c,h:'hood',hc:0x14161c,tr:0x9cff3a,pn:0x000000,suit:1,r:3},
+ {n:'Dourado Imperial',s:0xe6b422,p:0xe6b422,h:'crown',hc:0xfff2a8,tr:0xfff2a8,pn:0x3a2a05,suit:1,r:3},
+ {n:'Prata Cromado',s:0xc7cdd6,p:0xc7cdd6,h:'hood',hc:0xc7cdd6,tr:0x6c8cff,pn:0x1b1f28,suit:1,r:2},
+ {n:'Militar Tático',s:0x4b5a32,p:0x4b5a32,h:'helmet',hc:0x3a4626,tr:0xc9d36a,pn:0x1a2012,suit:1,r:1}];
+
 const RC=['#99aaaa','#44aaff','#bb66ff','#ffcc33'],RN=['Comum','Raro','Épico','Lendário'];
 function rollOut(){const x=Math.random(),r=x<.5?0:x<.8?1:x<.95?2:3,L=OUT.map((o,i)=>[o,i]).filter(a=>a[0].r==r);return L[Math.random()*L.length|0][1]}
 function setHat(r,o){const h=r.hat;while(h.children.length)h.remove(h.children[0]);if(!o.h)return;const M=new T.MeshStandardMaterial({color:o.hc,roughness:.6}),
@@ -407,6 +486,7 @@ function setHat(r,o){const h=r.hat;while(h.children.length)h.remove(h.children[0
  case'crown':a(new T.CylinderGeometry(.3,.3,.14,10),0,.31,0);for(let i=0;i<5;i++){const t=i/5*6.283;a(new T.ConeGeometry(.07,.2,4),Math.cos(t)*.25,.47,Math.sin(t)*.25)}break;
  case'horns':a(new T.ConeGeometry(.08,.34,6),-.2,.42,0,0,.4);a(new T.ConeGeometry(.08,.34,6),.2,.42,0,0,-.4);break;
  case'band':a(new T.BoxGeometry(.56,.1,.56),0,.1,0);break;
+ case'hood':a(new T.SphereGeometry(.4,18,14),0,.02,.02);{const v=new T.Mesh(new T.SphereGeometry(.3,14,10),new T.MeshStandardMaterial({color:0x06090f,roughness:.1,metalness:.9}));v.scale.set(1,.55,.5);v.position.set(0,.03,-.27);h.add(v);const gl=new T.Mesh(new T.BoxGeometry(.5,.03,.02),new T.MeshBasicMaterial({color:o.tr||0x19e6ff}));gl.position.set(0,-.08,-.37);h.add(gl)}break;
  case'ears':a(new T.ConeGeometry(.1,.3,4),-.17,.42,0);a(new T.ConeGeometry(.1,.3,4),.17,.42,0);break}}
 function applyOutfit(e,o,parts){if(!e||!e.rig||!o)return;const local=parts||((e===le||e===pl)&&SV.clothes?SV.clothes:null),r=e.rig;if(!local){r.mc.color.setHex(o.s);r.mp.color.setHex(o.p);setHat(r,o);return}
  const pick=k=>local[k]>=0?OUT[local[k]]:null,shirt=pick('shirt')||o,pants=pick('pants')||o,shoes=pick('shoes'),hat=pick('hat'),hair=pick('hair'),face=pick('makeup'),pack=pick('backpack');
@@ -558,18 +638,18 @@ function use(e,i){const id=e.slots[i];if(id==null||e.st=='ship'||e.mt>0)return;c
 function tw(e,t){if(!t)return[0,0];const dx=t.x-e.p.x,dz=t.z-e.p.z,d=Math.hypot(dx,dz);if(d<1.5)return[0,0];e.fy=e.yaw=Math.atan2(-dx,-dz);return[dx/d,dz/d]}
 // ===== save / dados =====
 let SV={coins:300,diamonds:0,owned:[0,1,2],out:0,w:2,sp:[0,1],dev:0,dv:{},used:[],sens:1,q:(/Android|iPhone|iPad/i.test(navigator.userAgent)?0:1),skin:2,rp:0,matches:0,wins:0,bpXP:0,elitePass:0,passClaimedF:[],passClaimedP:[],giftInbox:[],giftSeen:[]};
-try{Object.assign(SV,JSON.parse(localStorage.getItem('nycsv')||'{}'))}catch(e){}
+let legacyProgress=null;try{legacyProgress=JSON.parse(localStorage.getItem('nycsv')||'null')}catch(e){}if(!legacyProgress||typeof legacyProgress!=='object'||Array.isArray(legacyProgress))legacyProgress=null;if(legacyProgress)Object.assign(SV,legacyProgress);
 for(const [k,v] of Object.entries({diamonds:0,rp:0,matches:0,wins:0,bpXP:0,elitePass:0,passClaimedF:[],passClaimedP:[],giftInbox:[],giftSeen:[]}))if(SV[k]===undefined)SV[k]=v;
 const currentMonth=new Date().toISOString().slice(0,7);if(SV.monthKey!==currentMonth){SV.monthKey=currentMonth;SV.monthRP=0}if(SV.monthRP===undefined)SV.monthRP=0;
 if(!SV.dv)SV.dv={};if(!SV.used)SV.used=[];if(!Array.isArray(SV.owned))SV.owned=[0,1,2];for(const k of ['passClaimedF','passClaimedP','giftInbox','giftSeen'])if(!Array.isArray(SV[k]))SV[k]=[];
 const PART_NAMES={shirt:'Peitoral',pants:'Calça',shoes:'Sapatos',hat:'Chapéu/boné',hair:'Cabelo',makeup:'Maquiagem',backpack:'Mochila'};function outfitParts(i){return{shirt:i,pants:i,shoes:-1,hat:OUT[i]?.h?i:-1,hair:i,makeup:-1,backpack:-1}};if(!SV.clothes||typeof SV.clothes!=='object')SV.clothes=outfitParts(SV.out||0);for(const k of Object.keys(PART_NAMES))if(!Number.isInteger(SV.clothes[k])||SV.clothes[k]<-1||SV.clothes[k]>=OUT.length)SV.clothes[k]=outfitParts(SV.out||0)[k];let wardrobePart='shirt';
 const dvOn=k=>SV.dev&&SV.dv&&SV.dv[k];
-const save=()=>{try{localStorage.setItem('nycsv',JSON.stringify(SV))}catch(e){}};if(SV.monthKey!==currentMonth)save();
+let accountReady=false;const save=()=>{try{localStorage.setItem('nycsv',JSON.stringify(SV))}catch(e){}if(accountReady){try{localStorage.setItem(accountCacheKey(),JSON.stringify({progress:SV,hud:hudPref()}))}catch(e){}scheduleAccountSync()}};if(SV.monthKey!==currentMonth)save();
 const RANKS=[['Recruta',0],['Batedor',100],['Bronze',250],['Prata',450],['Ouro',700],['Platina',950],['Diamante',1250],['Gladiador',1600]];
 const rankInfo=()=>{let i=0;for(let n=0;n<RANKS.length;n++)if((SV.rp||0)>=RANKS[n][1])i=n;return{name:RANKS[i][0],next:RANKS[Math.min(i+1,RANKS.length-1)],index:i}};
 const PASS_FREE=[{type:'coins',n:120},{type:'diamonds',n:8},{type:'skin',i:12},{type:'coins',n:260},{type:'skin',i:13},{type:'diamonds',n:25}];
 const PASS_ELITE=[{type:'coins',n:250},{type:'diamonds',n:15},{type:'skin',i:14},{type:'coins',n:450},{type:'skin',i:15},{type:'skin',i:16}];
-const STORE=[{i:12,c:650,d:45},{i:13,c:900,d:60},{i:14,c:520,d:35},{i:15,c:580,d:40},{i:16,c:1100,d:75},{i:17,c:480,d:32}];
+const STORE=[{i:12,c:650,d:45},{i:13,c:900,d:60},{i:14,c:520,d:35},{i:15,c:580,d:40},{i:16,c:1100,d:75},{i:17,c:480,d:32},{i:18,c:2600,d:160},{i:19,c:900,d:60},{i:20,c:1200,d:80},{i:21,c:1100,d:75},{i:22,c:1100,d:75},{i:23,c:600,d:40},{i:24,c:600,d:40},{i:25,c:1000,d:70},{i:26,c:2200,d:140},{i:27,c:2400,d:150},{i:28,c:900,d:60},{i:29,c:520,d:35}];
 let rankedQueue=false,rankedRun=false;
 
 const STONE=noiseTex('#8a7d66',['#6f654f','#a89b82','#5d553f'],4000,.5);
@@ -871,19 +951,35 @@ ren.setPixelRatio(Math.min(devicePixelRatio,[.85,1.15,1.4][SV.q]));
 const ls=new T.Scene(),lc=new T.PerspectiveCamera(38,innerWidth/innerHeight,.1,100);let le=null,lpts=null,lmode=0,wpKey='';
 addEventListener('resize',()=>{lc.aspect=innerWidth/innerHeight;lc.updateProjectionMatrix()});
 function buildLobby(){
- const cv=document.createElement('canvas');cv.width=512;cv.height=256;const x=cv.getContext('2d'),gr=x.createLinearGradient(0,0,0,256);gr.addColorStop(0,'#74c8ee');gr.addColorStop(.55,'#d4f1df');gr.addColorStop(1,'#f6dda0');x.fillStyle=gr;x.fillRect(0,0,512,256);x.fillStyle='#fff1a8';x.beginPath();x.arc(388,72,28,0,6.283);x.fill();x.fillStyle='#278bb1';x.fillRect(0,164,512,92);x.fillStyle='#4e9270';x.beginPath();x.moveTo(0,166);x.lineTo(40,126);x.lineTo(108,148);x.lineTo(175,105);x.lineTo(250,151);x.lineTo(318,118);x.lineTo(405,151);x.lineTo(460,124);x.lineTo(512,152);x.lineTo(512,256);x.lineTo(0,256);x.fill();x.fillStyle='#75a85b';x.beginPath();x.moveTo(0,186);x.lineTo(78,150);x.lineTo(142,178);x.lineTo(210,142);x.lineTo(290,180);x.lineTo(370,146);x.lineTo(455,180);x.lineTo(512,158);x.lineTo(512,256);x.lineTo(0,256);x.fill();
- const bg=new T.Mesh(new T.PlaneGeometry(44,26),new T.MeshBasicMaterial({map:new T.CanvasTexture(cv)}));bg.position.set(0,5,-9);ls.add(bg);
- const sm=new T.MeshStandardMaterial({color:0x6b513b,roughness:.9}),leaf=new T.MeshStandardMaterial({color:0x2f8c51,roughness:.9});for(let i=0;i<8;i++){const px=-12+i*3.4,py=rnd(1.4,2.5),tr=new T.Mesh(new T.CylinderGeometry(.08,.13,py,6),sm);tr.position.set(px,py/2-1.2,-8.1);ls.add(tr);for(let k=0;k<5;k++){const a=k/5*6.283,b=new T.Mesh(new T.SphereGeometry(.62,6,5),leaf);b.scale.set(1.1,.22,.45);b.position.set(px+Math.cos(a)*.5,py-1.0+Math.sin(a)*.12,-8.1+Math.sin(a)*.5);ls.add(b)}}
- const pf=new T.Mesh(new T.CylinderGeometry(1.5,1.7,.18,40),new T.MeshStandardMaterial({color:0xb59a68,metalness:.05,roughness:.9}));pf.position.y=-.09;ls.add(pf);
- const rg=new T.Mesh(new T.TorusGeometry(1.52,.04,8,60),new T.MeshBasicMaterial({color:0x61d9b1}));rg.rotation.x=Math.PI/2;ls.add(rg);
- ls.add(new T.HemisphereLight(0xe7fbff,0x527449,1.2));const dl2=new T.DirectionalLight(0xfff3d2,1.35);dl2.position.set(2,4,4);ls.add(dl2);const bl=new T.PointLight(0x4cc6c8,1.3,14);bl.position.set(-3,2,-2);ls.add(bl);
- const p=[];for(let i=0;i<90;i++)p.push(rnd(-6,6),rnd(-1,6),rnd(-4,2));const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(p,3));lpts=new T.Points(g,new T.PointsMaterial({size:.07,color:0xffd180,transparent:true,opacity:.8}));ls.add(lpts);
+ const cv=document.createElement('canvas');cv.width=1024;cv.height=512;const x=cv.getContext('2d');
+ const sky=x.createLinearGradient(0,0,0,512);sky.addColorStop(0,'#32251f');sky.addColorStop(.58,'#694b36');sky.addColorStop(1,'#171719');x.fillStyle=sky;x.fillRect(0,0,1024,512);
+ // Warm timber lodge walls with a softly lit central doorway.
+ for(let i=0;i<18;i++){const xx=i*60;x.fillStyle=i%2?'#60432f':'#704d35';x.fillRect(xx,0,54,330);x.fillStyle='#2e211b';x.fillRect(xx+52,0,7,330);x.fillStyle='#8c6540';x.fillRect(xx+4,0,3,330)}
+ x.fillStyle='#251b18';x.fillRect(365,64,294,276);x.fillStyle='#a17a4d';x.fillRect(380,78,264,262);x.fillStyle='#503a2b';x.fillRect(405,100,214,240);x.fillStyle='#c7a16a';x.fillRect(416,112,192,228);
+ // Recessed beams, garland and glowing holiday bulbs.
+ x.fillStyle='#38251c';x.fillRect(0,0,1024,34);x.fillStyle='#9a7044';x.fillRect(0,30,1024,12);x.strokeStyle='#24452d';x.lineWidth=20;x.beginPath();x.moveTo(0,54);x.bezierCurveTo(230,130,330,20,512,76);x.bezierCurveTo(730,140,820,20,1024,62);x.stroke();
+ for(let i=0;i<19;i++){const xx=18+i*55, yy=62+Math.sin(i*.72)*21;x.fillStyle=['#f2c45f','#d94b36','#67b879'][i%3];x.beginPath();x.arc(xx,yy+12,6,0,6.283);x.fill();x.shadowColor=x.fillStyle;x.shadowBlur=13;x.beginPath();x.arc(xx,yy+12,3,0,6.283);x.fill();x.shadowBlur=0}
+ // Holiday tree at the left of the player.
+ const tx=168,ty=318;x.fillStyle='#58351e';x.fillRect(tx-13,ty+6,26,48);
+ for(let i=0;i<5;i++){const yy=ty-i*43, w=112-i*17;x.fillStyle=['#17462f','#20563a','#286444'][i%3];x.beginPath();x.moveTo(tx,yy-74);x.lineTo(tx-w,yy+18);x.lineTo(tx+w,yy+18);x.closePath();x.fill();x.strokeStyle='#47734b';x.lineWidth=3;x.stroke()}
+ x.fillStyle='#ffd86b';x.beginPath();x.arc(tx,ty-224,10,0,6.283);x.fill();
+ for(let i=0;i<32;i++){const yy=ty-25-(i%6)*36, spread=(ty-yy)*.52, xx=tx+Math.sin(i*8.7)*spread;x.fillStyle=['#f3cb55','#df5342','#78c7cf','#f6e2b1'][i%4];x.beginPath();x.arc(xx,yy,4+(i%3),0,6.283);x.fill()}
+ for(let i=0;i<7;i++){const xx=65+i*34;x.fillStyle=['#b94937','#287c5b','#d7a64d'][i%3];x.fillRect(xx,ty+43,29,25);x.fillStyle='#f3d28a';x.fillRect(xx+12,ty+43,5,25);x.fillRect(xx,ty+52,29,4)}
+ // Perspective plank floor in warm wood tones.
+ x.fillStyle='#493426';x.fillRect(0,340,1024,172);const floor=x.createLinearGradient(0,340,0,512);floor.addColorStop(0,'#8b684a');floor.addColorStop(1,'#33261f');x.fillStyle=floor;x.fillRect(0,340,1024,172);
+ for(let i=0;i<14;i++){const yy=342+i*i*1.0;x.strokeStyle=i%2?'#b1845a':'#2d211b';x.globalAlpha=.48;x.lineWidth=i<5?2:3;x.beginPath();x.moveTo(0,yy);x.lineTo(1024,yy);x.stroke()}
+ x.globalAlpha=.22;for(let i=0;i<11;i++){const xx=i*104;x.strokeStyle='#d5a775';x.lineWidth=2;x.beginPath();x.moveTo(512+(xx-512)*.22,342);x.lineTo(xx,512);x.stroke()}x.globalAlpha=1;
+ const bg=new T.Mesh(new T.PlaneGeometry(44,22),new T.MeshBasicMaterial({map:new T.CanvasTexture(cv)}));bg.position.set(0,5.3,-9);ls.add(bg);
+ const pf=new T.Mesh(new T.CylinderGeometry(1.5,1.7,.18,40),new T.MeshStandardMaterial({color:0x9b744b,metalness:.05,roughness:.9}));pf.position.y=-.09;ls.add(pf);
+ const rg=new T.Mesh(new T.TorusGeometry(1.52,.04,8,60),new T.MeshBasicMaterial({color:0xe1b65e}));rg.rotation.x=Math.PI/2;ls.add(rg);
+ ls.add(new T.HemisphereLight(0xffedcf,0x3a291e,1.45));const dl2=new T.DirectionalLight(0xffd69a,1.75);dl2.position.set(2,4,4);ls.add(dl2);const bl=new T.PointLight(0xffb94f,1.8,15);bl.position.set(-3,2,-2);ls.add(bl);
+ const p=[];for(let i=0;i<150;i++)p.push(rnd(-7,7),rnd(-1,7),rnd(-4,3));const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(p,3));lpts=new T.Points(g,new T.PointsMaterial({size:.075,color:0xffffff,transparent:true,opacity:.9}));ls.add(lpts);
  const rig=human(SV.skin);le=entObj(rig,'Você',false,false);le.st='ground';le.gd=true;ls.add(rig.g);rig.g.visible=true;applyOutfit(le,OUT[SV.out]);setGun(rig,SV.w);
- lc.position.set(0,1.25,4.2);lc.lookAt(0,1.0,0)}
-function lobbyFrame(dt){if(!le)return;if(!dragL)spin+=dt*.35;le.rig.g.rotation.y=Math.PI+spin;anim(le,dt,0);
+ lc.position.set(0,1.35,4.6);lc.lookAt(0,1.0,0)}function lobbyFrame(dt){if(!le)return;if(!dragL)spin+=dt*.35;le.rig.g.rotation.y=Math.PI+spin;anim(le,dt,0);
+ {const tw=wardOpen?Math.tan(lc.fov*.0087266)*3.7*lc.aspect*.52:0;wsh+=(tw-wsh)*Math.min(1,dt*6);lc.position.set(-wsh,1.25,wardOpen?3.7:4.2);lc.lookAt(-wsh,1.0,0)}
  const a=lpts.geometry.attributes.position;for(let i=0;i<a.count;i++){let y=a.getY(i)+dt*.25*(1+i%3);if(y>6)y=-1;a.setY(i,y)}a.needsUpdate=true;ren.render(ls,lc)}
-function modal(h){const m=$('modal');m.innerHTML='<div class="card">'+h+'<button class="fb" style="width:100%" onclick="closeModal()">FECHAR</button></div>';m.style.display='flex'}
-function closeModal(){$('modal').style.display='none'}
+function modal(h){const m=$('modal');document.body.classList.remove('wardOn');if(wardOpen&&le)applyOutfit(le,OUT[SV.out]||OUT[0]);wardOpen=false;m.className='';m.innerHTML='<div class="card">'+h+'<button class="fb" style="width:100%" onclick="closeModal()">FECHAR</button></div>';m.style.display='flex'}
+function closeModal(){const m=$('modal');document.body.classList.remove('wardOn');m.style.display='none';m.className='';if(wardOpen){wardOpen=false;if(le)applyOutfit(le,OUT[SV.out]||OUT[0])}}
 function refreshLobby(){if(le){applyOutfit(le,OUT[SV.out]||OUT[0]);setGun(le.rig,SV.w)}const r=rankInfo();$('cn').textContent='🪙 '+SV.coins+' · 💎 '+SV.diamonds+ (SV.dev?' · 🛠 DEV':'');$('rankTiny').textContent=r.name+' · '+SV.rp+' RP'+((SV.rp||0)>=700?' · ✦':'')}
 function mWeapons(){modal('<h3>ARMAS</h3>'+W.map((w,i)=>`<div class="wc${SV.w==i?' on':''}" onclick="SV.w=${i};save();refreshLobby();mWeapons()"><b>${w.n}</b><div class="st"><i style="width:${Math.min(100,w.d*w.pel*1.1)}%"></i></div><small>Cadência ${(1/w.rof).toFixed(1)}/s · Pente ${w.mag} · Alcance ${w.rng}m${w.au?' · Automática':''}</small></div>`).join(''))}
 function togSp(i){const k=SV.sp.indexOf(i);if(k>=0){if(SV.sp.length>1)SV.sp.splice(k,1)}else{SV.sp.push(i);if(SV.sp.length>2)SV.sp.shift()}save();mSpells()}
@@ -891,11 +987,42 @@ function mSpells(){modal('<h3>MAGIAS (escolha 2)</h3>'+SPL.map((s,i)=>`<div clas
 function mTactical(){modal('<h3>🧰 EQUIPAMENTO TÁTICO</h3><p>Use itens de sobrevivência de battle royale: granadas, kit médico e parede de gelo para defesa. Armas e itens próximos são recolhidos pelo botão PEGAR.</p><div class="wc"><b>🧊 Parede de gelo</b><small>Cria uma cobertura temporária à sua frente. Atalho: botão GELO.</small></div><div class="wc"><b>💣 Granada</b><small>Arremesso explosivo. Use GRANADA quando estiver no chão.</small></div><div class="wc"><b>🩹 Kit médico</b><small>Recupera vida durante a partida.</small></div>')}
 function pieceLabel(part,o){if(part==='shirt')return 'Cor do peitoral · '+o.n;if(part==='pants')return 'Cor da calça · '+o.n;if(part==='shoes')return 'Cor dos sapatos · '+o.n;if(part==='hat')return o.h?('Acessório: '+o.h):'Sem chapéu';if(part==='hair')return 'Estilo/cor de cabelo · '+o.n;if(part==='makeup')return 'Maquiagem · '+o.n;if(part==='backpack')return 'Mochila · '+o.n;return o.n}
 function wardrobeRefresh(){const base=OUT[SV.out]||OUT[0];if(le)applyOutfit(le,base);if(pl)applyOutfit(pl,base);if(pl&&net)pl.oi=SV.out;save();refreshLobby()}
-function equipPiece(part,i){if(!PART_NAMES[part])return;if(i>=0&&!SV.owned.includes(i))return mOut('Essa peça ainda está bloqueada. Desbloqueie o conjunto na loja ou no cofre.');SV.clothes[part]=i;wardrobeRefresh();mOut(PART_NAMES[part]+' equipado.')}
+function equipPiece(part,i){if(!PART_NAMES[part])return;if(i>=0&&!SV.owned.includes(i))return mWard('pieces','Peça bloqueada: desbloqueie na loja ou no cofre.');SV.clothes[part]=i;wardrobeRefresh();mWard('pieces',PART_NAMES[part]+' equipado.')}
 function equipSet(i){if(!SV.owned.includes(i))return mShop('Desbloqueie o conjunto antes de equipar.');SV.out=i;SV.clothes=outfitParts(i);wardrobeRefresh();mOut('Conjunto completo equipado: '+OUT[i].n)}
-function mOut(extra){const part=PART_NAMES[wardrobePart]?wardrobePart:'shirt',tabs=Object.entries(PART_NAMES).map(([k,n])=>`<button class="fb" style="width:auto;padding:6px 8px;${part===k?'outline:2px solid #fff':''}" onclick="wardrobePart='${k}';mOut()">${n}</button>`).join(''),none=(['hat','makeup','backpack'].includes(part)?`<div class="wc"><b>Remover ${PART_NAMES[part].toLowerCase()}</b><button class="fb" style="width:100%" onclick="equipPiece('${part}',-1)">SEM ${PART_NAMES[part].toUpperCase()}</button></div>`:'');const grid=OUT.map((o,i)=>{const owned=SV.owned.includes(i),selected=SV.clothes[part]===i;return `<div class="wc${selected?' on':''}" style="border-color:${RC[o.r]}"><b>${o.n}</b><small>${pieceLabel(part,o)} · ${RN[o.r]}</small>${owned?`<div class="skin-actions"><button class="fb" onclick="equipPiece('${part}',${i})">${selected?'✓ EM USO':'EQUIPAR PEÇA'}</button><button class="fb" onclick="equipSet(${i})">VESTIR CONJUNTO</button></div>`:`<button class="fb" style="width:100%" onclick="mShop()">🔒 VER NA LOJA</button>`}</div>`}).join('');modal(`<h3>VESTIÁRIO · PEÇA POR PEÇA</h3><p>${extra||'Escolha uma categoria e equipe cada peça sem trocar o resto da roupa.'}</p><div style="display:flex;flex-wrap:wrap;gap:4px;margin:8px 0">${tabs}</div><div class="grid">${none}${grid}</div><button class="fb" style="width:100%" onclick="openChest()">🎁 COFRE</button><button class="fb" style="width:100%" onclick="mShop()">🛍 LOJA DE ROUPAS</button>`)}
-function openChest(){if(SV.coins<100){mOut('Moedas insuficientes!');return}SV.coins-=100;const i=rollOut(),o=OUT[i];let t='🎁 '+RN[o.r]+': '+o.n;if(SV.owned.includes(i)){SV.coins+=30;t+=' (repetida, +30 🪙)'}else SV.owned.push(i);SV.out=i;SV.clothes=outfitParts(i);save();refreshLobby();mOut(t)}
+
+
 function buyOut(i,currency){const item=STORE.find(x=>x.i===i);if(!item)return;if(SV.owned.includes(i)){mOut('Você já tem esta roupa.');return}const field=currency==='diamonds'?'diamonds':'coins',price=currency==='diamonds'?item.d:item.c;if(SV[field]<price){mShop('Saldo insuficiente. Ganhe moedas e diamantes jogando partidas e avançando no passe.');return}SV[field]-=price;SV.owned.push(i);save();refreshLobby();mShop('Roupa desbloqueada: '+OUT[i].n)}
+// ===== COFRE / VESTIÁRIO estilo Free Fire =====
+let wardTab='sets',wardSel=-1,wardOpen=false,wardRes=-1,wsh=0;
+const hx=c=>'#'+((c||0)>>>0).toString(16).padStart(6,'0');
+function thumb(o){const sk=hx(TONES[SV.skin]||0xe0ac82),s=hx(o.s),p=hx(o.p),t=hx(o.tr||o.hc||o.s),pn=hx(o.pn||0x10141c),hc=hx(o.hc||o.s),hood=o.h==='hood';
+ return `<svg viewBox="0 0 40 64"><rect x="13" y="34" width="6" height="22" rx="2.5" fill="${p}"/><rect x="21" y="34" width="6" height="22" rx="2.5" fill="${p}"/><rect x="12.5" y="56" width="7" height="4.5" rx="2" fill="${o.suit?pn:'#1b1b1f'}"/><rect x="20.5" y="56" width="7" height="4.5" rx="2" fill="${o.suit?pn:'#1b1b1f'}"/>
+ <rect x="6.5" y="16" width="5" height="21" rx="2.5" fill="${s}"/><rect x="28.5" y="16" width="5" height="21" rx="2.5" fill="${s}"/><path d="M11 16.5q9-3.5 18 0l-2 19H13z" fill="${s}"/>
+ <circle cx="9" cy="38" r="2.4" fill="${o.suit?pn:sk}"/><circle cx="31" cy="38" r="2.4" fill="${o.suit?pn:sk}"/>
+ ${o.suit?`<path d="M14.5 18v16M25.5 18v16M16 36v19M24 36v19M7.8 18v17M32.2 18v17" stroke="${t}" stroke-width="1" fill="none"/><rect x="5.5" y="15.5" width="7" height="3.4" rx="1.7" fill="${pn}"/><rect x="27.5" y="15.5" width="7" height="3.4" rx="1.7" fill="${pn}"/><rect x="13" y="43" width="6" height="3.5" rx="1.5" fill="${pn}"/><rect x="21" y="43" width="6" height="3.5" rx="1.5" fill="${pn}"/>`:''}
+ <circle cx="20" cy="9" r="${hood?6.9:5.6}" fill="${hood?hc:sk}"/>${hood?`<rect x="15" y="6.6" width="10" height="4.6" rx="2.3" fill="#06090f"/><rect x="15.6" y="9.6" width="8.8" height="1" fill="${t}"/>`:(o.h?`<rect x="14.2" y="2.6" width="11.6" height="3.4" rx="1.6" fill="${hc}"/>`:'')}</svg>`}
+function wardInfo(i){const o=OUT[i],owned=SV.owned.includes(i),st=STORE.find(x=>x.i===i),eq=SV.out===i&&JSON.stringify(SV.clothes)===JSON.stringify(outfitParts(i));let act;
+ if(owned)act=eq?'<button class="fb" disabled style="opacity:.6">✓ EQUIPADO</button>':`<button class="fb" onclick="equipSet(${i})">EQUIPAR</button>`;
+ else if(st)act=`<button class="fb" onclick="buyOut(${i},'coins')">COMPRAR 🪙 ${st.c}</button><button class="fb" onclick="buyOut(${i},'diamonds')">COMPRAR 💎 ${st.d}</button>`;
+ else act='<button class="fb" onclick="mWard(\'chest\')">ENCONTRE NO COFRE</button>';
+ return `<div class="wbar"><b style="color:${RC[o.r]}">${o.n}</b><small>${RN[o.r]} · ${o.suit?'traje completo':'conjunto'}</small>${act}</div>`}
+function wardPick(i){wardSel=i;mWard('sets')}
+const CHEST_SVG='<svg viewBox="0 0 120 100"><ellipse cx="60" cy="92" rx="46" ry="6" fill="#0006"/><rect x="14" y="46" width="92" height="42" rx="4" fill="#7a4a22" stroke="#3a2210" stroke-width="3"/><path d="M14 48C14 22 106 22 106 48z" fill="#9a6230" stroke="#3a2210" stroke-width="3"/><rect x="14" y="44" width="92" height="9" fill="#ffc800" stroke="#a87800" stroke-width="2"/><rect x="26" y="26" width="8" height="62" fill="#ffc800" opacity=".9"/><rect x="86" y="26" width="8" height="62" fill="#ffc800" opacity=".9"/><rect x="51" y="44" width="18" height="20" rx="3" fill="#ffe45c" stroke="#a87800" stroke-width="2"/><circle cx="60" cy="54" r="3" fill="#3a2210"/></svg>';
+function mWard(tab,note){const m=$('modal');wardTab=tab||wardTab;wardOpen=true;document.body.classList.add('wardOn');m.className='ward';m.style.display='flex';
+ const tabs=[['sets','ROUPAS'],['pieces','PEÇAS'],['chest','COFRE'],['shop','LOJA']].map(([k,n])=>`<div class="wt${wardTab===k?' on':''}" onclick="${k==='shop'?'mShop()':`mWard('${k}')`}">${n}</div>`).join('')+['EMOTES','VEÍCULOS','PERFIL','MÚSICA'].map(n=>`<div class="wt off">${n}</div>`).join('');
+ let main='',bar='';
+ if(wardTab==='sets'){if(wardSel<0||wardSel>=OUT.length)wardSel=SV.out;if(le)applyOutfit(le,OUT[wardSel],outfitParts(wardSel));
+  main='<h4>ROUPAS · '+SV.owned.length+'/'+OUT.length+'</h4><div class="wgrid">'+OUT.map((o,i)=>{const own=SV.owned.includes(i),eq=SV.out===i;return `<div class="wk${wardSel===i?' on':''}${eq?' eq':''}" style="border-color:${RC[o.r]}" onclick="wardPick(${i})">${thumb(o)}<span class="wn">${o.n}</span>${eq?'<i class="wq">EQUIPADO</i>':''}${own?'':'<span class="wl">🔒</span>'}</div>`}).join('')+'</div>';bar=wardInfo(wardSel)}
+ else{if(le)applyOutfit(le,OUT[SV.out]||OUT[0]);
+  if(wardTab==='pieces'){const part=PART_NAMES[wardrobePart]?wardrobePart:'shirt',chips=Object.entries(PART_NAMES).map(([k,n])=>`<button class="fb" style="width:auto;display:inline-block;padding:6px 8px;margin:2px;${part===k?'outline:2px solid #fff':''}" onclick="wardrobePart='${k}';mWard('pieces')">${n}</button>`).join(''),
+   none=['hat','makeup','backpack'].includes(part)?`<div class="wk"><span class="wn" style="padding:14px 0">SEM ${PART_NAMES[part]}</span><button class="fb" style="padding:4px;font-size:9px" onclick="equipPiece('${part}',-1)">REMOVER</button></div>`:'';
+   main='<h4>PEÇAS</h4><div>'+chips+'</div><div class="wgrid" style="margin-top:6px">'+none+OUT.map((o,i)=>{const own=SV.owned.includes(i),sel=SV.clothes[part]===i;return `<div class="wk${sel?' eq':''}" style="border-color:${RC[o.r]}">${thumb(o)}<span class="wn">${o.n}</span><small style="display:block;font-size:8px;opacity:.7;text-transform:none">${pieceLabel(part,o)}</small>${own?`<button class="fb" style="padding:4px;font-size:9px" onclick="equipPiece('${part}',${i})">${sel?'✓ EM USO':'EQUIPAR'}</button>`:'<span class="wl">🔒</span>'}</div>`}).join('')+'</div>'}
+  else{main=`<h4>COFRE DE ROUPAS</h4><div class="chest${wardRes>=0?' open':''}">${CHEST_SVG}<div style="font-size:11px">Chance: Comum 50% · Raro 30% · Épico 15% · Lendário 5%</div>${wardRes>=0?`<div class="wk" style="width:110px;border-color:${RC[OUT[wardRes].r]}">${thumb(OUT[wardRes])}<span class="wn">${OUT[wardRes].n}</span></div>`:''}<button class="fb" style="max-width:280px" onclick="openChest()">ABRIR COFRE · 🪙 100</button></div>`;
+   if(wardRes>=0)bar=`<div class="wbar"><b style="color:${RC[OUT[wardRes].r]}">${OUT[wardRes].n}</b><small>${RN[OUT[wardRes].r]} · equipado</small></div>`}}
+ m.innerHTML=`<div class="wd"><div class="wtabs">${tabs}</div><div class="wmain"><div style="font-size:11px;color:#ffc800;margin-bottom:4px">🪙 ${SV.coins} · 💎 ${SV.diamonds}${note?' · '+note:''}</div>${main}</div><div></div></div><div class="wx" onclick="closeModal()">✕</div>${bar}`}
+function mOut(extra){mWard(wardTab==='shop'?'sets':wardTab,extra)}
+function openChest(){if(SV.coins<100){mWard('chest','Moedas insuficientes!');return}SV.coins-=100;const i=rollOut(),o=OUT[i];let t=RN[o.r]+': '+o.n;if(SV.owned.includes(i)){SV.coins+=30;t+=' (repetida, +30 🪙)'}else SV.owned.push(i);SV.out=i;SV.clothes=outfitParts(i);wardRes=i;wardSel=i;save();refreshLobby();mWard('chest',t)}
+
 function mShop(note){modal('<h3>LOJA NYC ROYALE</h3><p>'+(note||'🪙 Moedas e 💎 diamantes são fictícios; ganhe jogando. Itens apenas cosméticos.')+'</p><div class="grid">'+STORE.map(x=>{const o=OUT[x.i],owned=SV.owned.includes(x.i);return `<div class="wc" style="border-color:${RC[o.r]}"><b>${o.n}</b><small>${RN[o.r]} · cosmético</small>${owned?'<small>✓ DESBLOQUEADO</small>':`<div class="shop-actions"><button class="fb" onclick="buyOut(${x.i},'coins')">🪙 ${x.c}</button><button class="fb" onclick="buyOut(${x.i},'diamonds')">💎 ${x.d}</button></div>`}</div>`}).join('')+'</div>')}
 function mRank(){const r=rankInfo(),next=r.next[1],progress=r.index===RANKS.length-1?100:Math.min(100,Math.round((SV.rp-RANKS[r.index][1])/Math.max(1,next-RANKS[r.index][1])*100));modal(`<h3>⚔ RANKED · GLADIADORES</h3><div class="wc on"><b>Divisão: ${r.name}</b><small>${SV.rp} RP total · ${SV.monthRP||0} pontos neste mês · ${SV.wins} vitórias · ${SV.matches} partidas</small><div class="st"><i style="width:${progress}%"></i></div><small>${r.index===RANKS.length-1?'Você alcançou o topo local.':'Próxima divisão: '+r.next[0]+' · '+next+' RP'}</small></div><p>${(SV.rp||0)>=700?'<span class="badge-honor">✦ SELO DE HONRA DESBLOQUEADO</span>':'🔒 Selo de Honra a partir de Ouro (700 RP)'}</p><p>Ranque mensal local: os pontos do mês reiniciam automaticamente quando o calendário muda. Neste protótipo, a classificação fica salva apenas neste aparelho; não é um placar global online.</p><p>O selo é uma conquista local do jogo, não uma verificação oficial de identidade. Ranked solo contra bots.</p><button class="fb" style="width:100%" onclick="toggleRank()">${rankedQueue?'✅ RANKED ATIVADO':'⚔ ATIVAR RANKED'}</button>`)}
 function updateRankButton(){const b=$('bRank');if(!b)return;b.textContent=rankedQueue?'⚔ RANKED ON':'⚔ RANKED';b.classList.toggle('on',rankedQueue)}
@@ -914,11 +1041,11 @@ function giftOutfit(i,to){if(!SV.owned.includes(i)||i<12||!rm||!rm.sendGift)retu
 const CODES={'DEV-NYC-2077':()=>{SV.dev=1;SV.owned=OUT.map((o,i)=>i);SV.coins=999999;return '🛠 Modo desenvolvedor ativado: tudo desbloqueado!'},'NYC100':()=>{SV.coins+=100;return '+100 🪙 moedas!'}};
 function redeem(){const c=($('rc').value||'').trim().toUpperCase(),f=CODES[c];if(!f)return mCfg('❌ Código inválido');if(c!='DEV-NYC-2077'&&SV.used.includes(c))return mCfg('Código já usado');SV.used.push(c);const t=f();save();refreshLobby();mCfg(t)}
 function mCfg(x){const tg=(k,n)=>`<label style="display:block;margin:4px 0"><input type="checkbox" ${SV.dv[k]?'checked':''} onchange="SV.dv.${k}=this.checked?1:0;save()"> ${n}</label>`;
- modal(`<h3>CONFIG</h3><button class="fb" style="width:100%" onclick="openHudEditor()">🎮 PERSONALIZAR HUD</button><p style="color:#ffd54a">${x||''}</p><p><label>Sensibilidade <input type="range" min="0.4" max="2.5" step="0.1" value="${SV.sens}" oninput="SV.sens=+this.value;save()"></label></p><p><label>Gráficos <select onchange="SV.q=+this.value;save();ren.setPixelRatio(Math.min(devicePixelRatio,[.85,1.15,1.4][SV.q]))"><option value="0" ${SV.q==0?'selected':''}>Baixa</option><option value="1" ${SV.q==1?'selected':''}>Média</option><option value="2" ${SV.q==2?'selected':''}>Alta (mais nítido)</option></select><small style="display:block;opacity:.75">Antisserrilhado ligado; qualidade baixa prioriza desempenho no celular.</small></label></p><p><input id="rc" placeholder="CÓDIGO" style="padding:8px;width:58%;background:#000;color:#fff;border:1px solid #ffb300;border-radius:6px;text-transform:uppercase"> <button class="fb" style="display:inline-block;width:36%" onclick="redeem()">RESGATAR</button></p>${SV.dev?'<h3>🛠 DESENVOLVEDOR</h3>'+tg('god','Vida infinita')+tg('ammo','Munição infinita')+tg('cd','Sem recarga de magia')+tg('speed','Velocidade x2'):''}<button class="fb" style="width:100%" onclick="localStorage.removeItem('nycsv');location.reload()">Apagar progresso</button>`)}
+ modal(`<h3>CONFIG</h3><button class="fb" style="width:100%" onclick="openHudEditor()">🎮 PERSONALIZAR HUD</button><p style="color:#ffd54a">${x||''}</p><p><label>Sensibilidade <input type="range" min="0.4" max="2.5" step="0.1" value="${SV.sens}" oninput="SV.sens=+this.value;save()"></label></p><p><label>Gráficos <select onchange="SV.q=+this.value;save();ren.setPixelRatio(Math.min(devicePixelRatio,[.85,1.15,1.4][SV.q]))"><option value="0" ${SV.q==0?'selected':''}>Baixa</option><option value="1" ${SV.q==1?'selected':''}>Média</option><option value="2" ${SV.q==2?'selected':''}>Alta (mais nítido)</option></select><small style="display:block;opacity:.75">Antisserrilhado ligado; qualidade baixa prioriza desempenho no celular.</small></label></p><p><input id="rc" placeholder="CÓDIGO" style="padding:8px;width:58%;background:#000;color:#fff;border:1px solid #ffb300;border-radius:6px;text-transform:uppercase"> <button class="fb" style="display:inline-block;width:36%" onclick="redeem()">RESGATAR</button></p>${SV.dev?'<h3>🛠 DESENVOLVEDOR</h3>'+tg('god','Vida infinita')+tg('ammo','Munição infinita')+tg('cd','Sem recarga de magia')+tg('speed','Velocidade x2'):''}<button class="fb" style="width:100%" onclick="logoutAccount()">SAIR DA CONTA</button>`)}
 $('bwp').onclick=mWeapons;$('bsp').onclick=mTactical;$('bou').onclick=()=>mOut();$('bcf').onclick=()=>mCfg();$('bRank').onclick=mRank;$('bPass').onclick=()=>mPass();$('bShop').onclick=()=>mShop();$('bGift').onclick=()=>mGifts();
 for(let i=0;i<3;i++)$('m'+i).onclick=()=>{lmode=i;for(let k=0;k<3;k++)$('m'+k).className=k==i?'on':'';$('code').style.display=i==2?'inline-block':'none';$('go').textContent=i==0?(rankedQueue?'RANKED':'INICIAR'):i==1?'CRIAR SALA':'ENTRAR';if(i>0&&rankedQueue){rankedQueue=false;updateRankButton()}};
 function toggleRank(){if(lmode!==0){lmode=0;for(let k=0;k<3;k++)$('m'+k).className=k===0?'on':'';$('code').style.display='none'}rankedQueue=!rankedQueue;$('go').textContent=rankedQueue?'RANKED':'INICIAR';updateRankButton();closeModal()}
-$('go').onclick=async()=>{if(net&&rm){if(net.host)startHost();return}
+$('go').onclick=async()=>{if(!accountReady){showAuth('Faça login para continuar.');return}if(net&&rm){if(net.host)startHost();return}
  if(lmode==0){rankedRun=rankedQueue;startGame()}else if(lmode==1){rankedQueue=rankedRun=false;await joinRoom(Math.random().toString(36).slice(2,6),true)}else{rankedQueue=rankedRun=false;const c=$('code').value.toLowerCase().trim();if(c.length>=3)await joinRoom(c,false)}};
 
 // ===== início =====
@@ -1007,14 +1134,14 @@ document.addEventListener('gestureend',e=>e.preventDefault(),{passive:false});
 document.addEventListener('dblclick',e=>{if(e.target.closest('button,.b,#ctl,#lobby'))e.preventDefault()},{passive:false});
 
 const HUD_ITEMS=[['jb','Analógico'],['run','Correr'],['fire','Atirar'],['jump','Pular'],['build','Construir'],['ads','Mira'],['crouch','Agachar'],['rel','Recarregar'],['melee','Corpo a corpo'],['med','Kit médico'],['gren','Granada'],['sp0','Parede de gelo'],['grab','Pegar item'],['slots','Inventário'],['bars','Vida/escudo'],['mini','Minimapa'],['ctr','Zona/jogadores'],['st','Eliminações'],['hudEdit','Abrir editor']];
-const HUD_KEY='ilhaRoyaleHudV1';let hudEditorOpen=false,hudEditorTarget=null,hudDragId=null;
+let HUD_KEY='ilhaRoyaleHudV1';let hudEditorOpen=false,hudEditorTarget=null,hudDragId=null;
 const hudEl=id=>document.getElementById(id);
 function hudPref(){try{return JSON.parse(localStorage.getItem(HUD_KEY)||'{}')}catch(e){return{}}}
 function hudClearInline(){for(const [id] of HUD_ITEMS){const e=hudEl(id);if(!e)continue;for(const k of ['left','right','top','bottom','transform','transform-origin','opacity'])e.style.removeProperty(k);e.dataset.hudScale='1';e.dataset.hudAlpha='1'}}
 function applyHudLayout(){const pref=hudPref();for(const [id] of HUD_ITEMS){const e=hudEl(id),v=pref[id];if(!e)continue;if(!v){continue}const scale=Number(v.s)||1,alpha=v.a==null?1:Number(v.a);e.dataset.hudScale=scale;e.dataset.hudAlpha=alpha;e.style.transform=`scale(${scale})`;e.style.transformOrigin='center';e.style.opacity=alpha;if(Number.isFinite(v.x)&&Number.isFinite(v.y)){const w=e.offsetWidth||parseFloat(getComputedStyle(e).width)||48,h=e.offsetHeight||parseFloat(getComputedStyle(e).height)||48,cx=Math.max(w*scale/2,Math.min(innerWidth-w*scale/2,v.x*innerWidth)),cy=Math.max(h*scale/2,Math.min(innerHeight-h*scale/2,v.y*innerHeight));e.style.left=(cx-w/2)+'px';e.style.right='auto';e.style.top=(cy-h/2)+'px';e.style.bottom='auto'}}}
 function hudSetTarget(id){hudEditorTarget=hudEl(id);if(!hudEditorTarget)return;document.querySelectorAll('.hud-target').forEach(e=>e.classList.toggle('hud-selected',e===hudEditorTarget));const scale=Number(hudEditorTarget.dataset.hudScale)||1,alpha=hudEditorTarget.dataset.hudAlpha==null?1:Number(hudEditorTarget.dataset.hudAlpha);hudEl('hudSize').value=scale;hudEl('hudSizeText').textContent=Math.round(scale*100)+'%';hudEl('hudAlpha').value=alpha;hudEl('hudPick').value=id}
 function openHudEditor(){closeModal();hudEditorOpen=true;document.body.classList.add('hud-editing');hudEl('hud').style.display='block';hudEl('grab').style.display='flex';hudClearInline();applyHudLayout();const sel=hudEl('hudPick');sel.innerHTML=HUD_ITEMS.map(([id,n])=>`<option value="${id}">${n}</option>`).join('');HUD_ITEMS.forEach(([id])=>hudEl(id)?.classList.add('hud-target'));hudSetTarget(HUD_ITEMS[0][0]);hudEl('hudEditorPanel').style.display='block'}
-function saveHudLayout(){const out={};for(const [id] of HUD_ITEMS){const e=hudEl(id);if(!e)continue;const r=e.getBoundingClientRect(),scale=Number(e.dataset.hudScale)||1,alpha=e.dataset.hudAlpha==null?1:Number(e.dataset.hudAlpha);out[id]={x:(r.left+r.width/2)/innerWidth,y:(r.top+r.height/2)/innerHeight,s:scale,a:alpha}}localStorage.setItem(HUD_KEY,JSON.stringify(out))}
+function saveHudLayout(){const out={};for(const [id] of HUD_ITEMS){const e=hudEl(id);if(!e)continue;const r=e.getBoundingClientRect(),scale=Number(e.dataset.hudScale)||1,alpha=e.dataset.hudAlpha==null?1:Number(e.dataset.hudAlpha);out[id]={x:(r.left+r.width/2)/innerWidth,y:(r.top+r.height/2)/innerHeight,s:scale,a:alpha}}localStorage.setItem(HUD_KEY,JSON.stringify(out));if(accountReady){try{localStorage.setItem(accountCacheKey(),JSON.stringify({progress:SV,hud:out}))}catch(e){}scheduleAccountSync()}}
 function closeHudEditor(save){if(!hudEditorOpen)return;if(save)saveHudLayout();else{hudClearInline();applyHudLayout()}hudEditorOpen=false;hudDragId=null;document.body.classList.remove('hud-editing');hudEl('hudEditorPanel').style.display='none';document.querySelectorAll('.hud-target').forEach(e=>e.classList.remove('hud-target','hud-selected'));if(!started){hudEl('hud').style.display='none';hudEl('grab').style.display='none'}else if(!grabWP&&!grabRune)hudEl('grab').style.display='none'}
 function resetHudLayout(){localStorage.removeItem(HUD_KEY);hudClearInline();closeHudEditor(true)}
 hudEl('hudPick').addEventListener('change',e=>hudSetTarget(e.target.value));
@@ -1025,6 +1152,26 @@ document.addEventListener('pointermove',e=>{if(!hudEditorOpen||!hudDragId)return
 document.addEventListener('pointerup',()=>{hudDragId=null},{capture:true});
 addEventListener('resize',()=>{if(!hudEditorOpen)applyHudLayout()});
 
+// ===== contas: sessão no servidor e progresso isolado por usuário =====
+let accountUser=null,authMode='login',syncTimer=0,syncBusy=false,syncAgain=false;
+const accountCacheKey=()=>`newfire-account-${(accountUser||'').toLowerCase()}`;
+function showAuth(message=''){accountReady=false;$('authGate').style.display='flex';$('authError').textContent=message;$('lobby').style.pointerEvents='none';}
+function hideAuth(){ $('authGate').style.display='none';$('lobby').style.pointerEvents='none'; }
+function setAuthMode(mode){authMode=mode;const reg=mode==='register';$('authSubmit').textContent=reg?'CRIAR CONTA':'ENTRAR';$('authSwitch').textContent=reg?'Já tenho conta · Entrar':'Ainda não tenho conta · Criar conta';$('authIntro').textContent=reg?'Crie sua conta para salvar o progresso em qualquer aparelho.':'Entre para carregar seu progresso salvo na sua conta.';$('authPass').autocomplete=reg?'new-password':'current-password';$('authError').textContent=''}
+async function apiJson(url,options={}){const r=await fetch(url,{credentials:'same-origin',cache:'no-store',...options,headers:{'content-type':'application/json',...(options.headers||{})}});let d={};try{d=await r.json()}catch{}if(!r.ok)throw new Error(d.error||'Falha na conexão com o servidor.');return d}
+function normalizeAccountProgress(data){const base={coins:300,diamonds:0,owned:[0,1,2],out:0,w:2,sp:[0,1],dev:0,dv:{},used:[],sens:1,q:(/Android|iPhone|iPad/i.test(navigator.userAgent)?0:1),skin:2,rp:0,matches:0,wins:0,bpXP:0,elitePass:0,passClaimedF:[],passClaimedP:[],giftInbox:[],giftSeen:[]};Object.assign(base,data&&typeof data==='object'&&!Array.isArray(data)?data:{});for(const [k,v] of Object.entries({diamonds:0,rp:0,matches:0,wins:0,bpXP:0,elitePass:0,passClaimedF:[],passClaimedP:[],giftInbox:[],giftSeen:[]}))if(base[k]===undefined)base[k]=v;if(!base.dv||typeof base.dv!=='object')base.dv={};if(!base.used)base.used=[];if(!Array.isArray(base.owned))base.owned=[0,1,2];for(const k of ['passClaimedF','passClaimedP','giftInbox','giftSeen'])if(!Array.isArray(base[k]))base[k]=[];if(!base.clothes||typeof base.clothes!=='object')base.clothes=outfitParts(base.out||0);for(const k of Object.keys(PART_NAMES))if(!Number.isInteger(base.clothes[k])||base.clothes[k]<-1||base.clothes[k]>=OUT.length)base.clothes[k]=outfitParts(base.out||0)[k];if(base.monthKey!==currentMonth){base.monthKey=currentMonth;base.monthRP=0}if(base.monthRP===undefined)base.monthRP=0;return base}
+function setHudForAccount(hud){HUD_KEY=`newfireHud-${(accountUser||'').toLowerCase()}`;try{localStorage.setItem(HUD_KEY,JSON.stringify(hud||{}))}catch{}hudClearInline?.();}
+async function finishLogin(user){accountUser=user.username;const result=await apiJson('/api/save');let cached=null;try{cached=JSON.parse(localStorage.getItem(accountCacheKey())||'null')}catch{}let payload=result.data;if(payload&&payload.progress){SV=normalizeAccountProgress(payload.progress);setHudForAccount(payload.hud)}else if(payload){SV=normalizeAccountProgress(payload);setHudForAccount({})}else if(cached&&cached.progress){SV=normalizeAccountProgress(cached.progress);setHudForAccount(cached.hud)}else if(legacyProgress){SV=normalizeAccountProgress(legacyProgress);setHudForAccount({});showAuth('Há progresso antigo neste aparelho. Escolha se quer importar para esta conta.');$('authGate').innerHTML=`<div class="auth-card"><h1>Importar progresso?</h1><p>Encontramos um salvamento antigo neste aparelho. Você pode copiá-lo para a conta ${user.username}, ou começar do zero. Essa escolha não altera outras contas.</p><button class="primary" onclick="importLegacyProgress()">IMPORTAR PROGRESSO ANTIGO</button><button onclick="startFreshAccount()">COMEÇAR DO ZERO</button></div>`;window.pendingAccountUser=user.username;return}else{SV=normalizeAccountProgress(null);setHudForAccount({})}accountReady=true;hideAuth();$('lt').querySelector('div div').textContent=user.username;localStorage.setItem('nycsv',JSON.stringify(SV));refreshLobby();applyHudLayout()}
+async function importLegacyProgress(){SV=normalizeAccountProgress(legacyProgress);legacyProgress=null;accountReady=true;hideAuth();$('lt').querySelector('div div').textContent=window.pendingAccountUser;refreshLobby();await syncAccountNow()}
+function startFreshAccount(){legacyProgress=null;SV=normalizeAccountProgress(null);accountReady=true;hideAuth();$('lt').querySelector('div div').textContent=window.pendingAccountUser;refreshLobby();syncAccountNow()}
+function scheduleAccountSync(){if(!accountReady)return;clearTimeout(syncTimer);syncTimer=setTimeout(syncAccountNow,700)}
+async function syncAccountNow(){if(!accountReady)return;if(syncBusy){syncAgain=true;return}syncBusy=true;do{syncAgain=false;try{await apiJson('/api/save',{method:'PUT',body:JSON.stringify({progress:SV,hud:hudPref()})})}catch(e){console.warn('Sincronização de progresso indisponível:',e.message);$('lm').textContent='Não foi possível sincronizar agora. Verifique sua conexão.'} }while(syncAgain);syncBusy=false}
+$('authSwitch').addEventListener('click',()=>setAuthMode(authMode==='login'?'register':'login'));
+async function logoutAccount(){try{await apiJson('/api/auth/logout',{method:'POST',body:'{}'})}catch(e){}accountReady=false;accountUser=null;location.reload()}
+$('logoutBtn').addEventListener('click',logoutAccount);
+$('authForm').addEventListener('submit',async e=>{e.preventDefault();const username=$('authUser').value.trim(),password=$('authPass').value;$('authSubmit').disabled=true;$('authError').textContent='Conectando…';try{const endpoint=authMode==='register'?'/api/auth/register':'/api/auth/login';const data=await apiJson(endpoint,{method:'POST',body:JSON.stringify({username,password})});await finishLogin(data.user);$('authPass').value=''}catch(err){$('authError').textContent=err.message;$('authSubmit').disabled=false}});
+async function checkSession(){try{const data=await apiJson('/api/auth/me');if(data.user)await finishLogin(data.user);else showAuth()}catch(err){showAuth(err.message)}}
+checkSession();
 buildLobby();refreshLobby();requestAnimationFrame(loop);
 
 </script></body></html>
