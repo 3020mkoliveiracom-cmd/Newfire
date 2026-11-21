@@ -500,10 +500,10 @@ function human(skin){const g=new T.Group(),bd=new T.Group();bd.position.y=.95;g.
  mp=new T.MeshStandardMaterial({color:0x2a3350,map:FAB,bumpMap:FAB,bumpScale:.6,roughness:.85,transparent:true}),
  ms=mk(TONES[skin],.55),mb=mk(0x1b1b1f,.6),mshoe=mk(0x1b1b1f,.6),mMakeup=mk(0xff588b,.45),mPack=mk(0x345577,.75),mv=mk(0x23272b,.7),mh=mk(0x2b1b10,.8),mf=mk(0xffffff,.55);mf.map=faceTex(skin);
  const add=(geo,m,x,y,z,p)=>{const gk=geo.type+JSON.stringify(geo.parameters);const o=new T.Mesh(GC[gk]||(GC[gk]=geo),m);o.position.set(x,y,z);(p||bd).add(o);return o},cyl=(a,b,h)=>new T.CylinderGeometry(a,b,h,10);
- add(roundBox(.30,.16,.25,.035),mp,0,0,0);
  const ch=new T.Group();ch.position.y=.08;bd.add(ch);
+ add(roundBox(.32,.20,.28,.035),mp,0,-.08,0,ch);
  add(roundBox(.42,.50,.30,.055),mc,0,.31,0,ch);
- add(roundBox(.43,.20,.31,.035),mv,0,.18,-.01,ch);
+ add(roundBox(.43,.20,.31,.035),mv,0,.08,-.01,ch);
  for(const x of[-.12,.12])add(roundBox(.095,.10,.04,.018),mv,x,.23,-.17,ch);
  add(roundBox(.34,.40,.15,.03),mb,0,.34,.20,ch);
  add(roundBox(.18,.10,.18,.035),ms,0,.62,0,ch);
@@ -516,7 +516,7 @@ function human(skin){const g=new T.Group(),bd=new T.Group();bd.position.y=.95;g.
  const arm=sd=>{const u=new T.Group();u.position.set(sd*.25,.55,0);ch.add(u);add(roundBox(.12,.12,.12,.045),mc,0,0,0,u);add(roundBox(.13,.29,.13,.045),mc,0,-.145,0,u);
   const l=new T.Group();l.position.y=-.29;u.add(l);add(roundBox(.12,.27,.12,.04),mc,0,-.135,0,l);add(roundBox(.13,.10,.13,.045),mb,0,-.28,0,l);return[u,l]};
  const A0=arm(-1),A1=arm(1);
- const leg=sd=>{const t=new T.Group();t.position.set(sd*.11,0,0);bd.add(t);add(roundBox(.17,.46,.18,.045),mp,0,-.23,0,t);
+ const leg=sd=>{const t=new T.Group();t.position.set(sd*.11,-.08,0);ch.add(t);add(roundBox(.17,.46,.18,.045),mp,0,-.23,0,t);
   const s=new T.Group();s.position.y=-.46;t.add(s);add(roundBox(.15,.40,.17,.04),mp,0,-.20,0,s);add(roundBox(.20,.10,.29,.055),mshoe,0,-.43,-.045,s);return[t,s]};
  const L0=leg(-1),L1=leg(1);
  const hold=new T.Group();hold.position.y=-.27;hold.rotation.x=-Math.PI/2;A1[1].add(hold);
