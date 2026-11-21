@@ -533,22 +533,31 @@ function human(skin){const g=new T.Group(),bd=new T.Group();bd.position.y=.95;g.
 // armas 3D
 const GM=new T.MeshStandardMaterial({color:0x2c2f36,metalness:.9,roughness:.32}),GA=new T.MeshStandardMaterial({color:0x16171a,metalness:.4,roughness:.55}),GW=new T.MeshStandardMaterial({color:0x7a4a22,roughness:.65}),ML=[.34,.5,.95,.95,.98,1.15];
 const GUN_FILES=['desert-eagle','mp5','m4a1','ak-47','m1887','awm'].map(n=>`assets/models/weapons/${n}.glb`),
- GUN_LENGTH=[.4,.82,1.33,1.33,1.28,1.8],GUN_GRIP=[.36,.12,.18,.18,.25,.14],GUN_LOADS=[];
+ GUN_LENGTH=[.4,.82,1.33,1.33,1.28,1.8],
+ GUN_CALIBRATION=[
+  {yaw:0,gripY:.08,gripZ:.335,muzzle:'min'},
+  {yaw:0,gripY:.08,gripZ:.10,muzzle:'min'},
+  {yaw:Math.PI,gripY:.08,gripZ:.18,muzzle:'min'},
+  {yaw:Math.PI,gripY:.10,gripZ:.18,muzzle:'min'},
+  {yaw:Math.PI*1.5,gripY:.08,gripZ:.26,muzzle:'min'},
+  {yaw:0,gripY:.10,gripZ:.15,muzzle:'min'}
+ ],GUN_LOADS=[];
 const gunLoader=T.GLTFLoader?new T.GLTFLoader():null;
 function loadGunAsset(t){if(!gunLoader)return Promise.resolve(null);if(!GUN_LOADS[t])GUN_LOADS[t]=new Promise(resolve=>gunLoader.load(GUN_FILES[t],gltf=>resolve(gltf.scene),undefined,()=>resolve(null)));return GUN_LOADS[t]}
 function importedGun(source,t){
- const asset=source.clone(true);
- if(t===4)asset.rotation.y=Math.PI/2;
+ const asset=source.clone(true),cal=GUN_CALIBRATION[t];
+ asset.rotation.y=cal.yaw;
  asset.updateMatrixWorld(true);
  const bounds=new T.Box3().setFromObject(asset),size=bounds.getSize(new T.Vector3()),center=bounds.getCenter(new T.Vector3());
  const scale=GUN_LENGTH[t]/Math.max(size.x,size.z,.001);
  asset.scale.setScalar(scale);
- asset.position.set(-center.x*scale,-center.y*scale,-center.z*scale-GUN_LENGTH[t]*GUN_GRIP[t]);
+ asset.position.set(-center.x*scale,-center.y*scale+cal.gripY,-center.z*scale-GUN_LENGTH[t]*cal.gripZ);
  asset.updateMatrixWorld(true);
  const muzzleBounds=new T.Box3().setFromObject(asset);
  asset.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true}});
  const group=new T.Group();group.add(asset);
- const muzzle=new T.Object3D();muzzle.position.set(0,.05,muzzleBounds.min.z-GUN_LENGTH[t]*.01);group.add(muzzle);group.userData.mz=muzzle;
+ const muzzle=new T.Object3D(),muzzleAt=cal.muzzle==='min'?muzzleBounds.min.z-GUN_LENGTH[t]*.01:muzzleBounds.max.z+GUN_LENGTH[t]*.01;
+ muzzle.position.set(0,.05,muzzleAt);group.add(muzzle);group.userData.mz=muzzle;
  return group;
 }
 function gunModel(t){const g=new T.Group(),b=(w,h,d,x,y,z,m,rx)=>{const o=new T.Mesh(new T.BoxGeometry(w,h,d),m||GM);o.position.set(x,y,z);if(rx)o.rotation.x=rx;g.add(o)},
