@@ -443,13 +443,18 @@ const VS_N='varying vec3 vN,vP;void main(){vN=normalize(normalMatrix*normal);vP=
 const shieldMat=()=>new T.ShaderMaterial({transparent:true,depthWrite:false,blending:T.AdditiveBlending,uniforms:{c:{value:new T.Color(0x3399ff)},t:UT},vertexShader:VS_N,fragmentShader:'uniform vec3 c;uniform float t;varying vec3 vN,vP;void main(){float f=pow(1.-abs(vN.z),2.2);float h=.6+.4*sin(vP.y*10.+t*3.);gl_FragColor=vec4(c*h,f*.85+.06);}'});
 const orbMat=col=>new T.ShaderMaterial({transparent:true,depthWrite:false,blending:T.AdditiveBlending,uniforms:{c:{value:new T.Color(col)},t:UT},vertexShader:VS_N,fragmentShader:'uniform vec3 c;uniform float t;varying vec3 vN,vP;void main(){float f=pow(1.-abs(vN.z),1.6);float n=.5+.5*sin(vP.x*16.+t*10.)*sin(vP.y*15.-t*8.)*sin(vP.z*14.+t*9.);gl_FragColor=vec4(c*(.5+n)+vec3(f*.9),1.);}'});
 const TONES=[0xf1c9a5,0xe0ac82,0xc68a62,0x9c6a45,0x6e4a31,0xffdbb4],faceCache={};
-function faceTex(i){if(faceCache[i])return faceCache[i];const c=document.createElement('canvas');c.width=256;c.height=128;const x=c.getContext('2d');x.fillStyle='#'+TONES[i].toString(16).padStart(6,'0');x.fillRect(0,0,256,128);
- x.fillStyle='#fff';x.beginPath();x.ellipse(181,58,6,3.6,0,0,6.283);x.ellipse(203,58,6,3.6,0,0,6.283);x.fill();
- x.fillStyle='#3a2a1a';x.beginPath();x.arc(181,58,2.8,0,6.283);x.arc(203,58,2.8,0,6.283);x.fill();
- x.strokeStyle='#2a1a10';x.lineWidth=2.5;x.beginPath();x.moveTo(174,50);x.lineTo(188,49);x.moveTo(196,49);x.lineTo(210,50);x.stroke();
- x.strokeStyle='rgba(120,60,40,.5)';x.lineWidth=2;x.beginPath();x.moveTo(192,62);x.lineTo(190,74);x.lineTo(194,75);x.stroke();
- x.strokeStyle='#8a3a3a';x.lineWidth=2.5;x.beginPath();x.moveTo(184,84);x.quadraticCurveTo(192,88,200,84);x.stroke();
- return faceCache[i]=new T.CanvasTexture(c)}
+function faceTex(i){
+ if(faceCache[i])return faceCache[i];
+ const c=document.createElement('canvas');c.width=c.height=256;const x=c.getContext('2d');
+ x.fillStyle='#'+TONES[i].toString(16).padStart(6,'0');x.fillRect(0,0,256,256);
+ const shade=x.createRadialGradient(128,108,34,128,128,180);shade.addColorStop(0,'rgba(255,255,255,.10)');shade.addColorStop(1,'rgba(95,54,38,.08)');x.fillStyle=shade;x.fillRect(0,0,256,256);
+ for(const cx of[70,186]){const blush=x.createRadialGradient(cx,157,1,cx,157,25);blush.addColorStop(0,'rgba(238,112,116,.30)');blush.addColorStop(1,'rgba(238,112,116,0)');x.fillStyle=blush;x.fillRect(cx-25,132,50,50)}
+ x.lineCap='round';x.strokeStyle='rgba(83,49,35,.76)';x.lineWidth=4;x.beginPath();x.moveTo(78,99);x.quadraticCurveTo(94,91,108,98);x.moveTo(148,98);x.quadraticCurveTo(162,91,178,99);x.stroke();
+ for(const cx of[94,162]){x.fillStyle='#fffaf4';x.beginPath();x.ellipse(cx,119,13,11,0,0,6.283);x.fill();x.fillStyle='#382a25';x.beginPath();x.ellipse(cx,120,5.4,7.4,0,0,6.283);x.fill();x.fillStyle='rgba(255,255,255,.95)';x.beginPath();x.arc(cx-1.8,117.5,2.1,0,6.283);x.fill()}
+ x.strokeStyle='rgba(142,84,60,.58)';x.lineWidth=2.5;x.beginPath();x.moveTo(129,130);x.lineTo(126,144);x.quadraticCurveTo(129,147,133,144);x.stroke();
+ x.strokeStyle='#873f43';x.lineWidth=4;x.beginPath();x.moveTo(108,174);x.quadraticCurveTo(128,185,148,174);x.stroke();
+ const tex=new T.CanvasTexture(c);tex.encoding=T.sRGBEncoding;return faceCache[i]=tex
+}
 function fabricTex(){const c=document.createElement('canvas');c.width=c.height=128;const x=c.getContext('2d');x.fillStyle='#bbb';x.fillRect(0,0,128,128);
  for(let i=0;i<22;i++){x.fillStyle=['#999','#ddd','#aaa'][i%3];x.globalAlpha=.5;x.beginPath();x.ellipse(rnd(0,128),rnd(0,128),rnd(8,22),rnd(5,14),rnd(0,3),0,6.283);x.fill()}
  x.globalAlpha=.25;x.fillStyle='#000';for(let i=0;i<128;i+=2)x.fillRect(i,0,1,128);for(let j=0;j<128;j+=2)x.fillRect(0,j,128,1);x.globalAlpha=1;
@@ -508,8 +513,8 @@ function human(skin){const g=new T.Group(),bd=new T.Group();bd.position.y=.95;g.
  add(roundBox(.34,.40,.15,.03),mb,0,.34,.20,ch);
  add(roundBox(.18,.10,.18,.035),ms,0,.62,0,ch);
  const hd=new T.Group();hd.position.y=.77;ch.add(hd);
- add(roundBox(.30,.30,.28,.065),mf,0,0,0,hd);
- add(roundBox(.31,.13,.29,.055),mh,0,.105,0,hd);
+ add(roundBox(.30,.30,.28,.065),[ms,ms,ms,ms,ms,mf],0,0,0,hd);
+ add(roundBox(.31,.10,.29,.05),mh,0,.14,0,hd);
  const hat=new T.Group();hat.scale.setScalar(.46);hd.add(hat);
  const makeup=new T.Group();hd.add(makeup);for(const x of[-.075,.075])add(roundBox(.055,.022,.012,.006),mMakeup,x,-.075,-.145,makeup);makeup.visible=false;
  const backpack=new T.Group();backpack.position.set(0,.31,.22);ch.add(backpack);add(roundBox(.24,.31,.14,.035),mPack,0,0,.04,backpack);add(roundBox(.14,.07,.14,.02),mPack,0,.18,.04,backpack);backpack.visible=false;
